@@ -498,9 +498,7 @@ summary(logistic_model4)
 ```
 
 
-In our rigorous data analysis process, we recognized the critical importance of model selection to ensure that our statistical analysis accurately captures the relationship between environmental tobacco smoking (ETS) and externalizing problems (EXT). To achieve this, we evaluated various regression models, including linear regression, polynomial regression, and other advanced techniques. Each model was assessed based on its ability to fit the data, goodness of fit, and the presence of statistically significant predictors. After a comprehensive model selection process and thorough evaluation of model performance, we have identified the optimal model that best represents the association between ETS and EXT."
 
-"After careful consideration and statistical analysis, the best model that emerged from our model selection process was the multiple linear regression model. This model was selected because it demonstrated a strong fit to the data, captured the linear relationship between ETS and EXT effectively, and provided interpretable coefficients that allowed us to quantify the impact of environmental tobacco smoking on externalizing problems. We also conducted diagnostic checks to ensure the model's assumptions were met. This selected model not only offers a robust understanding of the relationship in question but also serves as a reliable foundation for drawing conclusions and making informed decisions regarding the effects of ETS on externalizing problems."
 
 
 
