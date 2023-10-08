@@ -500,7 +500,6 @@ summary(logistic_model4)
 
 
 
-### hello world
 
 
 
