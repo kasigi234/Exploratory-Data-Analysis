@@ -7,10 +7,10 @@ output: pdf_document
 
 ```{r setup,setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
-#### made changes to library
+
 # load package
-#library(mice)
-#library(gtsummary)
+library(mice)
+library(gtsummary)
 library(tidyverse)
 library(kableExtra)
 library(knitr)
