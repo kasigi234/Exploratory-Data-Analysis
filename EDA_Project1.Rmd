@@ -34,7 +34,7 @@ knitr::opts_chunk$set(warning = FALSE, message = FALSE, echo = FALSE, fig.align 
 
 ##   Prenatal Tobacco Exposure and Child Outcomes
 
-Github Repository: https://github.com/kasigi234/Exploratory-Data-Analysis
+      Github Repository: https://github.com/kasigi234/Exploratory-Data-Analysis
 
 ##    **1. Background**
 
