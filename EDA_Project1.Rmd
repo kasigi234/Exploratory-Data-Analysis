@@ -169,6 +169,7 @@ missing_data_only$Missing_Count <- round(missing_data_only$Missing_Count, 2)
 missing_data_only$Percentage_Missing <- round(missing_data_only$Percentage_Missing, 2)
 
 missing_data_only %>% 
+  mutate_all(linebreak) %>%
   kbl(caption = "Variables with above 25% Missing Data",
 col.names = linebreak(c("Variable", "Proportion (%)", "n"))) %>% 
 kable_styling(bootstrap_options = c("hover"), full_width = F) %>% 
