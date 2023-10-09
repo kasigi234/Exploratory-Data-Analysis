@@ -1,6 +1,8 @@
 ---
 title: "PDA Project1"
 author: 'Due: October 8 by 11.59pm'
+title: "Project 1 Practical Data Analysis "
+author: "Exploratory Data Analysis"
 date: "`r Sys.Date()`"
 output: pdf_document
 ---
@@ -9,7 +11,8 @@ output: pdf_document
 knitr::opts_chunk$set(echo = FALSE)
 
 # load package
-library(mice)
+# libraries to be used 
+#install.packages("kableExtra")
 library(gtsummary)
 library(tidyverse)
 library(kableExtra)
@@ -25,39 +28,104 @@ library(lattice)
 library(reshape2)
 library(formatR)
 #opts_chunk$set(tidy.opts=list(width.cutoff=60),tidy=TRUE)
+#library(summarytools)
+#library(broom)
+
 knitr::opts_chunk$set(echo = FALSE)
 knitr::opts_chunk$set(warning = FALSE, message = FALSE, echo = FALSE, fig.align = "center")
 
-setwd("/Users/kasigi/OneDrive - Brown University/Desktop/Fall_2023/PHP2550/Project1")
+#setwd("/Users/kasigi/OneDrive - Brown #University/Desktop/Fall_2023/PHP2550/Project1")
+
+#setwd("C:\\Users\\kasigi\\OneDrive - Brown #University\\Documents\\GitHub\\Exploratory-Data-Analysis\\EDA_Pro#ject1.Rmd")
 
 # load the data
 project_data <- read.csv("/Users/kasigi/OneDrive - Brown University/Desktop/Fall_2023/PHP2550/Project1/project1.csv")
 
 ```
 
-# Prenatal Tobacco Exposure and Child Outcomes
+##   Prenatal Tobacco Exposure and Child Outcomes
 
-##    1.Introduction
+Github Repository: https://github.com/kasigi234/Exploratory-Data-Analysis
 
-Exposure to smoking during pregnancy (SDP) and exposure to environmental tobacco smoke (ETS) are among the most widespread and harmful environmental factors that affect children. Approximately 7% to 15% of newborns each year are exposed to SDP, and over 25% of children are exposed to ETS within their homes. Dr Lauren Micalizzi's study seeks to examine self-regulation and substance use/externalizing behavior in youth who were prenatally exposed to smoking during pregnancy. It is hypothesized that early smoke exposure is associated with difficulties in self-regulation, early substance use and externalizing problems among children which affects their control of physiological, emotional, behavioral, and cognitive aspects. The primary objective is to examine the association between smoking during pregnancy (SDP) and environmental tobacco smoking (ETS) exposure and self-regulation, externalizing behavior, and substance use.
+##    **1. Background**
 
-##    2.Data
+Exposure to smoking during pregnancy (SDP) and exposure to environmental tobacco smoke (ETS) are among the most widespread and harmful environmental factors that affect children. Previous studies have shown that approximately 7% to 15% of newborns each year are exposed to SDP, and over 25% of children are exposed to ETS within their homes. Dr Lauren Micalizzi's study seeks to examine self-regulation and substance use/externalizing behavior in youth who were prenatally exposed to smoking during pregnancy. It is hypothesized that early smoke exposure is associated with difficulties in self-regulation, early substance use and externalizing problems among children which affects their control of physiological, emotional, behavioral, and cognitive aspects. The primary objective for this analysis is to examine the association between smoking during pregnancy (SDP) and environmental tobacco smoking (ETS) exposure and self-regulation, externalizing behavior, and substance use.
 
-We use data collected from a randomly selected sub-population (N = 100) of mothers and their (12-16 years) adolescent children from a previous study on smoke avoidance intervention to reduce smoking and environmental tobacco smoking (ETS) exposure during pregnancy and exposure to ETS in the immediate postpartum period for children among low-income women. The data comprises mothers' and children's responses on smoking exposures both prenatal and postnatal, self-regulation, and substance use for children.  The data has been preprocessed and reduced to data with 49 observations for both mothers and their children measured over 78 variables on child exposure to smoke during and after pregnancy, as well as measurements for child behavior on externalizing, self-regulation, and substance. The independent and dependent variables to be used in the analysis are created based on the maternal report on smoking during pregnancy (SDP) and environmental tobacco smoking (ETS) while the dependent variables are substance use (SU), externalizing problems (EXT), and self-regulation (SR). 
+##    **2.Data**
 
-##    2.1 Data cleaning
+We use data collected from a randomly selected sub-population (N = 100) of mothers and their (12-16 years) adolescent children from a previous study on smoke avoidance intervention to reduce smoking and environmental tobacco smoking (ETS) exposure during pregnancy and exposure to ETS in the immediate postpartum period for children among low-income women. The data comprises mothers' and children responses on both prenatal and postnatal smoking exposures , self-regulation, and substance use for children.  The data was earlier preprocessed and reduced to 49 observations for both mothers and their children measured over 78 variables on child exposure to smoke during and after pregnancy, as well as measurements for child behavior on externalizing, self-regulation, and substance. The independent and dependent variables to be used in the analysis are created based on the maternal report on smoking during pregnancy (SDP) and environmental tobacco smoking (ETS) while the dependent variables are substance use (SU), externalizing problems (EXT), and self-regulation (SR). 
 
-Before performing any analysis further reprocessing was done to ensure that the data was clean from any anomalies and missingness. This involved cleaning the outliers, handling inconsistencies as well as missing data to ensure the quality and reliability of the data. All blank entries were re-recorded as NA values. **'mom_numcig'** which collects information on the mother's daily cigarettes consumption had several records that were abnormally different; "2 black and miles a day","20-25", "None" and "44989". These records were adjusted accordingly on the assumption that it meant the number and the average of cigarettes smoked while none simply meant 0 whereas 44989 as NA. **Income ** data had different formats for the entries and this was standardized. **'momcig'** had an outlier value of 40 which was adjusted to 4 assuming that it was a mistyped entry. Further cleaning involved data type transformation for binary and continuous variables. **'num_cigs_30'**, **'num_e_cigs_30'**, **'num_mj_30'**, **'num_alc_30'** which detailed child's substance use were originally recorded as NAs and this was adjusted to 0 if the child reported to be a non cigarette, e-cigarette, marijuana or alcohol user. This reduced the amount of missingness that were initially observed in the original data.
+###    **2.1 Data cleaning**
+
+Before exploring the data further additional reprocessing was done to ensure that the data was clean from any anomalies and missingness handled appropriately. This involved cleaning the outliers, handling inconsistencies as well as missing data to ensure quality and reliability of the data. All blank entries were re-recorded as NA values. **'mom_numcig'** which collects information on the mother's daily cigarettes consumption had several records that were abnormally different; "2 black and miles a day","20-25", "None" and "44989". These records were adjusted accordingly on the assumption that it meant the number and the average of cigarettes smoked while none simply meant 0 whereas 44989 as NA. **Income ** data had different formats for the entries and this was standardized. **'momcig'** had an outlier value of 40 which was adjusted to 4 assuming that it was an error during data entry. Further cleaning involved data type transformation for continuous variables and binary records. **'num_cigs_30'**, **'num_e_cigs_30'**, **'num_mj_30'**, **'num_alc_30'** which detailed child's substance use were originally recorded as NAs and this was adjusted to 0 if the child reported to be a non cigarette, e-cigarette, marijuana or alcohol user. This reduced the amount of missingness that were initially observed in the original data.
 
 ```{r}
+
+# Data cleaning
+
+# variable transformation
+project_data$psex <- as.factor(project_data$psex)
+project_data$plang <- as.factor(project_data$plang)
+project_data$pethnic <- as.factor(project_data$pethnic)
+project_data$paian <- as.factor(project_data$paian)
+project_data$pasian <- as.factor(project_data$pasian)
+project_data$pnhpi <- as.factor(project_data$pnhpi)
+project_data$pblack <- as.factor(project_data$pblack)
+project_data$pwhite <- as.factor(project_data$pwhite)
+project_data$prace_other <- as.factor(project_data$prace_other)
+project_data$employ <- as.factor(project_data$employ)
+project_data$pedu <- as.factor(project_data$pedu)
+project_data$childasd <- as.factor(project_data$childasd)
+project_data$nidaalc <- as.factor(project_data$nidaalc)
+project_data$nidatob <- as.factor(project_data$nidatob)
+project_data$nidapres  <- as.factor(project_data$nidapres)
+project_data$nidaill <- as.factor(project_data$nidaill)
+project_data$mom_smoke_16wk <- as.factor(project_data$mom_smoke_16wk)
+project_data$mom_smoke_22wk <- as.factor(project_data$mom_smoke_22wk)
+project_data$mom_smoke_32wk <- as.factor(project_data$mom_smoke_32wk)
+project_data$mom_smoke_pp1 <- as.factor(project_data$mom_smoke_pp1)
+project_data$mom_smoke_pp2 <- as.factor(project_data$mom_smoke_pp2)
+project_data$mom_smoke_pp12wk <- as.factor(project_data$mom_smoke_pp12wk)
+project_data$mom_smoke_pp6mo <- as.factor(project_data$mom_smoke_pp6mo)
+project_data$smoke_exposure_6mo <- as.factor(project_data$smoke_exposure_6mo)
+project_data$smoke_exposure_12mo <- as.factor(project_data$smoke_exposure_12mo)
+project_data$smoke_exposure_2yr <- as.factor(project_data$smoke_exposure_2yr)
+project_data$smoke_exposure_3yr <- as.factor(project_data$smoke_exposure_3yr)
+project_data$smoke_exposure_4yr <- as.factor(project_data$smoke_exposure_4yr)
+project_data$tsex <- as.factor(project_data$tsex)
+project_data$language <- as.factor(project_data$language)
+project_data$tethnic <- as.factor(project_data$tethnic)
+project_data$alc_ever <- as.factor(project_data$alc_ever)
+project_data$mj_ever <- as.factor(project_data$mj_ever)
+project_data$e_cig_ever <- as.factor(project_data$e_cig_ever)
+project_data$cig_ever <- as.factor(project_data$cig_ever)
+project_data$taian <- as.factor(project_data$taian)
+project_data$tasian <- as.factor(project_data$tasian)
+project_data$tnhpi <- as.factor(project_data$tnhpi)
+project_data$tblack <- as.factor(project_data$tblack)
+project_data$twhite <- as.factor(project_data$twhite)
+project_data$trace_other <- as.factor(project_data$trace_other)
+project_data$smoke_exposure_5yr <- as.factor(project_data$smoke_exposure_5yr)
+project_data$momcig <- as.numeric(project_data$momcig)
+project_data$mom_numcig <- as.numeric(project_data$mom_numcig)
+project_data$income <- as.numeric(project_data$income)
+project_data$cotimean_34wk <- as.numeric(project_data$cotimean_34wk)
+project_data$cotimean_pp6mo <- as.numeric(project_data$cotimean_pp6mo)
+project_data$cotimean_pp6mo_baby <- as.numeric(project_data$cotimean_pp6mo_baby)
+
+#project_data$mom_smoke_16wk <- as.numeric(project_data$mom_smoke_16wk)
+#project_data$cmom_smoke_22wk <- as.numeric(project_data$mom_smoke_22wk)
+#project_data$mom_smoke_32wk <- as.numeric(project_data$mom_smoke_32wk)
+
+
 # blank values to NA
 project_data[project_data == ""] <- NA
 
-# change the income input or row 6
+# change the income input 
 project_data$income[6] <- 250000
 project_data$income[1] <- 76000
 
-# handle the outlier on momcig 
+# handle the outlier value on momcig 
 project_data$momcig[31] <- 4
 
 # replace the erronously recorded value with NA
@@ -86,7 +154,8 @@ project_data <- project_data %>% mutate(num_alc_30 = case_when(alc_ever == 0 ~ 0
 
 ```
 
-##    2.2 Missing Data
+###   **2.2 Missing Data**
+
 
 ```{r}
 # summary statistics for missing data 
@@ -95,7 +164,6 @@ missing_data <- data.frame(
   Missing_Count = sapply(project_data, function(x) sum(is.na(x)))
 )
 missing_data$Percentage_Missing <- missing_data$Missing_Count / nrow(project_data) * 100
-
 missing_data <- missing_data %>%
   arrange(desc(Percentage_Missing))
 
@@ -105,86 +173,64 @@ rownames(missing_data) <- NULL
 # variables with missing values above 25%
 missing_data_only <- missing_data %>%
   filter(Percentage_Missing > 25)
-
-# percent of missingness
 project_missing <- naniar::miss_var_summary(project_data, order = FALSE) 
 project_missing$pct_miss <- round(project_missing$pct_miss, 2)
-
-# Round off the values to 2 decimal places in the missing_data_only data frame
 missing_data_only$Missing_Count <- round(missing_data_only$Missing_Count, 2)
+
 missing_data_only$Percentage_Missing <- round(missing_data_only$Percentage_Missing, 2)
 
 missing_data_only %>% 
-  mutate_all(linebreak) %>%
-kbl(caption = "Variables with 25% and More  Missing Data",
-col.names = linebreak(c("Variable", "Proportion (%)", "n")),
-booktabs = T, escape = F, align = "c") %>%
-kable_styling(full_width = FALSE, latex_options = c('hold_position')) %>% 
-row_spec(0, background = "black", color = "white")
-```
-
-```{r}
-
-missing_data_only %>% 
-  mutate_all(linebreak) %>%
-kbl(caption = "Variables with 25% and More  Missing Data",
-col.names = linebreak(c("Variable", "Proportion (%)", "n")),
-booktabs = T, escape = F, align = "c") %>%
-kable_styling(full_width = FALSE, latex_options = c('hold_position')) %>% 
-row_spec(0, background = "black", color = "white")
-
+  kbl(caption = "Variables with above 25% Missing Data",
+col.names = linebreak(c("Variable", "Proportion (%)", "n"))) %>% 
+kable_styling(bootstrap_options = c("hover"), full_width = F) %>% 
+    row_spec(0, background = "black", color = "white")
 
 ```
-
-
-From the above table ,we note that the '**mom_smoke_pp1**' which indicates whether the mother was smoking during the first postpartum visit has 79.6% of missingness, indicating a substantial amount of missing data which seems inconsistent with the other postpartum visits. '**childasd**' also exhibit relatively high percentage of missingness at 57% while the other variables have varying degrees of missingness, with less that 50% missingness. Several other variables, such as '**num_alc_30**', '**bpm_int**', '**pmq_parental_knowledge**','**pmq_parental_solicitation**'	are seen to be missing together at 28.57%. Similarly, '**bpm_att_p**', '**tsex**', '**nnum_e_cigs_30**','**alc_ever**','**erq_cog**','**erq_exp**' and '**pmq_child_disclosure**' variables are also missing together at 26.53. These findings underscore the importance of addressing the missing data. Considering the amount of data in this study, methods such as imputation of data may not be plausible as this is likely to induce bias into the estimates. Missing data for the variables of interest were excluded in the subsequent analysis.
+From the above table ,we note that the '**mom_smoke_pp1**' which indicates whether the mother was smoking during the first postpartum visit has 79.6% of missingness, indicating a substantial amount of missing data which seems inconsistent with the other postpartum visits. '**childasd**' also exhibit relatively high percentage of missingness at 57% while the other variables have less that 50% varying degrees of missingness. Certain variables, such as '**num_alc_30**', '**bpm_int**', '**pmq_parental_knowledge**','**pmq_parental_solicitation**'	are notable seen to be missing together at 28.57%. Similarly, '**bpm_att_p**', '**tsex**', '**nnum_e_cigs_30**','**alc_ever**','**erq_cog**','**erq_exp**' and '**pmq_child_disclosure**' variables are also missing together at 26.53. These findings underscore the importance of addressing the missing data but the study's limitation is on the small amount of data, therefore missing data methods such as imputation were not be plausible as this was likely to induce bias to the results estimates. In subsequent analysis missing data for the variables of interest were dropped.
 
 Also, there appears to be a trend in the missingness across the variables. Most variables appear to be missing together. This consistent pattern suggests that the missingness is not at random (MNAR) indicating that there is a common factor influencing the data and these could be due to the unobserved factors which may be related to the nature of these variables and how they were measured during data collection or unobserved characteristics of the mothers and the children in this study that were not measured. For instance mothers with extremely high smoking habits are likely to be biased in their response as they might be less likely to disclose their true smoking behavior.
 
-##    3. Analysis
+##    **3. Analysis**
 
-## 3.1 Demographic summary statistics
+###   **3.1 Demographic summary statistics**
 
 ```{r}
+
 # summary table for demographic characteristics
 tbl_summary_demographic <-  project_data %>%
-  select(page,pedu, employ,tage , tsex, prace_other, trace_other) %>%
+  select(page,pedu,employ,tage , tsex, prace_other, trace_other) %>%
   tbl_summary(missing = "no", 
               label = list(page = "Mom Age", pedu = "Mom Education", employ = "Mom Employed",tage = "Child Age" , tsex = "Child Sex", prace_other = "Mom Other Race", trace_other = "Child Other Race")) 
 
-# Convert tbl_summary to a data frame
+# change tbl_summary to a data frame
 data_frame <- tbl_summary_demographic %>%
   as_tibble()
-
-# Define column names
 column_names <- c("Variable", "N = 49") 
 colnames(data_frame) <- column_names
 
-# Convert the data frame to a knitr_kable object
+# for nicer display
 kable_tbl <- data_frame %>%
-  mutate_all(linebreak) %>%
-kbl(caption = "Demographic Characteristics",
-col.names = linebreak(c("Variable", "N = 49")),
-booktabs = T, escape = F, align = "c") %>%
-kable_styling(full_width = FALSE, latex_options = c('hold_position')) %>% 
-row_spec(0, background = "black", color = "white")
+  kbl(caption = "Demographic Characteristics",
+col.names = linebreak(c("Variable", "N = 49"))) %>% 
+kable_styling(bootstrap_options = c("hover"), full_width = F) %>% 
+    row_spec(0, background = "black", color = "white")
 
 kable_tbl
+
 ```
-From the table, the average child age is 13 years with 36% being females. The mean age for mothers is 37 years with interquartile range of 35-39 years with 37% having some college education, 24% had 4 year degree education level while about 5% have a postgraduate degree. Slightly above half the mothers who participated in the study had full time jobs (54%), while about 29% being unemployed. This gives an understanding of the participants characteristics which may be potential confounding factors during the analysis.
 
-For further analysis, the variables were grouped into independent (exposure) and dependent variables (outcome). The variables were based on the information on the questionnaires and how correlated the variables were based on correlation matrices. 
+From the table, the average child age is 13 years with 36% being females. The mother's mean age is 37 years with interquartile range of 35-39 years with 37% having some college education, 24% had 4 year degree education level while about 5% have a postgraduate degree. Slightly above half the mothers who participated in the study had full time jobs (54%), while about 29% were unemployed. Further analysis will be guided by an understanding of the participants characteristics which may be potentially confound the results.
 
-### 3.2 Aggregate Variable for Exposure
+To further the analysis, variables were grouped into independent (exposure) and dependent variables (outcome). The variables were based on the information on the questionnaires, codebook and how correlated the variables seemed to be based on correlation matrices. 
 
-Exposures incorporated both trimester timing and dosage effect from prenatal cotinine levels which were informed by prospective maternal report on the questionnaires of smoking during and after pregnancy and the environmental tobacco smoking to come up with smoking during pregnancy (SDP) and environmental tobacco smoking (ETS) variables. SDP was a composite for all the variables that relate to mothers smoking status during pregnancy as well as urine cotinine levels during pregnancy whereas ETS entailed all of the variables for smoke exposure post pregnancy and mother's urine cotinine levels as well as the babys. All these were combined to get a composite exposures.
-Cotinine levels data were first transformed using the logarithmic scale and normalized before their inclusion in the composite. variable for SDP.
+###   **3.2 Aggregate Variable for Exposure**
+
+The aggregate exposures incorporated both trimester timing and dosage effect from prenatal cotinine levels which were informed by prospective maternal report on the questionnaires of smoking during and after pregnancy and the environmental tobacco smoking to come up with smoking during pregnancy (SDP) and environmental tobacco smoking (ETS) variables. SDP was a composite for all the variables that relate to mothers smoking status during pregnancy as well as urine cotinine levels during that period whereas ETS comprised of all variables for smoke exposure post pregnancy and the mother and baby's urine cotinine levels. All these were put together aggregated exposures. Mother and baby's cotinine data were first transformed using the logarithmic scale and normalized on the z-scale before their inclusion in the composite exposure variable to be used in the analysis.
 
 
-####    3.2.1 Interrelatedness of SDP and ETS
+####    **3.2.1 Interrelatedness of SDP and ETS**
 
 ```{r}
-
 # Standardize cotinine variable for mom and child
 mom_cotimean_34_z <- abs(log(scale(project_data$cotimean_34wk)))
 mom_cotimean_6mo_z <- abs(log(scale(project_data$cotimean_pp6mo)))
@@ -210,7 +256,6 @@ project_data$ETS <- with(project_data,
 ```
 
 ```{r}
-
 # correlation matrix for SDP  and ETS
 correlation_matrix_b <- cor(project_data[c("SDP", "ETS")], use ="complete.obs")
 
@@ -222,30 +267,26 @@ ggplot(melted_cor_matrix_b, aes(Var1, Var2, fill = value)) +
   geom_tile() +
   scale_fill_gradient2(low = "blue", high = "red", mid = "white",
                        midpoint = 0, limit = c(-1, 1), space = "Lab", 
-                       #breaks = seq(-1, 1, by = 0.5)) +
-                       name = "Correlation") +
+                        name = "Correlation") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 90, vjust = 1,
                                    size = 5, hjust = 1), 
         axis.text.y = element_text(size = 5)) +
   labs(x = NULL, y = NULL, fill = "Correlation") +
   coord_fixed() +
-  ggtitle("SDP and ETS Matrix")+
+  ggtitle("SDP and ETS matrix")+
   labs(caption = "Figure 1: SDP vs ETS Correlation Matrix") 
 ```
 
 Figure 1 above shows that smoke exposure during pregnancy (SDP) and environmental tobacco exposure (ETS) have a fairly positive correlation with each other indicating a weak interrelatedness of the smoking during pregnancy and environmental tobacco smoking composite variables for SDP and ETS were fairly correlated with each other.
 
-## 3.3 Outcome Variables 
+##    **3.3 Outcome Variables** 
 
-Similarly, the outcome variables included self regulation (SR), externalizing (Ext) problem and substance use. EXT and SR use were based on the responses to questions relating to emotional regulation, attention deficit and problem monitor from both the mother and the child. Potential correlations were assessed using a correlation matrix before the creation of the EXT and SR sub-groups. Substance use (SU) was created based on the child's response on any of the substances being studied. 
+Also, the outcome variables were created and they included self regulation (SR), externalizing (Ext) problem and substance use. EXT and SR use were based on the responses to questions relating to emotional regulation, attention deficit and problem monitor from both the mother and the child. Potential correlations for all these variables were assessed using a correlation matrix before the creation of the EXT and SR sub-groups. Substance use (SU) was created based on the child's response on any of the substances being studied. 
 
 ```{r}
 # correlation matrix for SR/EXT
-correlation_matrix_out <- cor(project_data[c("bpm_att", "bpm_ext", "bpm_att_p", 
-                             "bpm_ext_p", "swan_inattentive", "swan_hyperactive",
-                             "erq_exp","erq_cog","bpm_int", "bpm_int_p")], 
-                          use ="complete.obs")
+correlation_matrix_out <- cor(project_data[c("bpm_att", "bpm_ext", "bpm_att_p", "bpm_ext_p", "swan_inattentive", "swan_hyperactive","erq_exp","erq_cog","bpm_int", "bpm_int_p")], use ="complete.obs")
 
 # reshape the correlation matrix for ggplot
 melted_cor_matrix_out <- melt(correlation_matrix_out)
@@ -269,9 +310,9 @@ ggplot(melted_cor_matrix_out, aes(Var1, Var2, fill = value)) +
 
 Figure 2 above, shows that there is an evident correlation between the variables for externalizing and self regulation variables. This aligns with the descriptions on the codebook and the questionnaires relating to child externalizing and attention problem. Some other variables exhibit a fair correlation. These variables will then be categorized as either self regulation (SR) or externalizing (EXT).
 
-### 3.3.1 Aggregate scores for EXT and SR
+###   **3.3.1 Aggregate scores for EXT and SR**
 
-Before answering the primary objective for the analysis, an aggregate variable for the outcome was created. Basing on the correlation matrix for the outcome, two  groups were created for the EXT and SR. As seen earlier in the correlation matrix for the outcomes most of the variables were seen to be highly correlated. This enabled the creation of an aggregate variable for externalizing and self regulate variables separately while also basing on the provided codebook. The variables relating to attention and regulation scores were first normalized using Z-score to standardize the values to account for the different systems utilized during generation of the scores. 
+Before embarking on the primary objective for the analysis, an aggregate variable for the outcome was created. Basing on the correlation matrix for the outcome, the two  sub-groups were created for the EXT and SR. As seen earlier in the correlation matrix for the outcomes most of the variables were seen to be highly correlated. This enabled the creation of an aggregate variable for externalizing and self regulate variables separately while also basing on the provided code book. The variables relating to attention and regulation scores were first normalized using Z-score to standardize the values to account for the different systems utilized during generation of the scores. 
 
 ```{r}
 
@@ -307,32 +348,24 @@ project_data$SU <- with(project_data,
                         ifelse(cig_ever == 1 | e_cig_ever == 1 | 
                                  mj_ever == 1 | alc_ever == 1, 1, 0))
 
+
+## variables for the outcome variables
+df_outcomes = project_data %>% 
+  select(bpm_att, bpm_ext, bpm_att_p, bpm_ext_p, swan_inattentive,erq_cog, erq_exp, swan_hyperactive)
+
 # correlation matrix for interrelatedness externalizing variables
 correlation_matrix <- cor(project_data[c("bpm_att", "bpm_ext", 
-                                         "bpm_att_p", "bpm_ext_p", "swan_inattentive", 
+                                         "bpm_att_p","bpm_ext_p", "swan_inattentive", 
                                          "swan_hyperactive")], use = "pairwise.complete.obs")
 
 # correlation matrix for interrelatedness self regulation
 correlation_matrix2 <- cor(project_data[c("erq_exp", "erq_cog", "bpm_int", "bpm_int_p")], 
                            use = "pairwise.complete.obs")
 
-# Load the tidyverse package
-library(tidyverse)
-
-# Assuming you have a data frame called 'your_data'
-project_data %>%
-  select(ETS, SDP, EXT, SR, SU) %>%
-  summarise(
-    Mean_ETS = mean(ETS, na.rm = TRUE),
-    Median_SDP = median(SDP, na.rm = TRUE),
-    SD_EXT = sd(EXT, na.rm = TRUE),
-    Mean_SR = mean(SR, na.rm = TRUE),
-    Median_SU = median(SU, na.rm = TRUE)
-  )
 
 ```
 
-### 3.3.2 Interrelatedness of the externalizing and self regulate behaviors in children
+###   3.3.2 Interrelatedness of the externalizing and self regulate behaviors in children
 ```{r}
 # correlation matrix for SR/EXT
 #correlation_matrix <- cor(project_data[c("EXT", "SU", "SR", 
@@ -362,14 +395,15 @@ ggplot(melted_cor_matrix_c, aes(Var1, Var2, fill = value)) +
 
 Figure 3 shows that the externalizing and self regulate problems among the children are correlated suggesting that a child who exhibits externalizing problems is likely to experience self regulation problems.  
 
-## 4. Effect of ETS on Externalizing problems
+##    **4. Effect of ETS on Externalizing problems**
 
 ```{r}
 
 # ETS on Externalizing problems
 ggplot(project_data, aes(x = ETS, y = EXT)) +
   geom_point(size = 1, alpha = 0.7, color = "green") +
-  geom_smooth(method = "lm", se = FALSE, size = 1.2, linetype = "solid", color = "red") +
+  geom_smooth(method = "lm", se = FALSE, size = 1.2, 
+              linetype = "solid", color = "red") +
   labs(title = "Effect of Environmental tobacco smoking on EXT",
        x = "Environmental Tobacco Smoking",
        y = "Externalizing problems") +
@@ -380,9 +414,9 @@ ggplot(project_data, aes(x = ETS, y = EXT)) +
 
 Figure 4 shows externalizing problems in children increases with increasing environmental tobacco smoking suggesting that children exposed to environmental tobacco smoking have capabilities to externalizing problems, self regulation and escalated substance use. Although no effect was notable for smoking during pregnancy on the outcomes. Linear models were later used to examine whether SDP had an effect on the outcomes with adjusted demographic characteristics. 
 
-A linear model was 
+To wrap the exploratory analysis process, logistics for binary outcome and linear regression models were utilized to further examine the primary objective. During model fitting we recognized the critical importance of model selection to ensure that the statistical analysis accurately captures the relationship between environmental tobacco smoking (ETS) and externalizing problems (EXT). To achieve this, both linear and logistics regression models were evaluated.Each model was assessed based on their ability to fit the data. Goodness of fit was considered for the presence of statistically significant pvalues for the predictors. After a comprehensive model selection process the best model for evaluating SDP/ETS on Externalizing problems, the best model with race, employment, education controlling for parents age and SDP had significant pvalue of 0.01457. The logistics regression model for Substance use as the outcome did not show any significant results even after controlling for SDP and other baseline covariates.
 
-## model selection process for externalizing problems as the outcome
+In conclusion the analysis showed that environmental tobacco smoking is associated with self regulation and externalizing behavior among children. Further analysis is required to further explore these effects and to extensively account for any potential confounding factors.
 
 ```{r}
 # model selection for externalizing problem as the outcome
@@ -390,9 +424,10 @@ A linear model was
 model3 = lm(EXT ~ SDP +  ETS + page + pethnic + paian + pnhpi + pwhite + prace_other + employ + 
               pedu + income + tage + tethnic + taian + tblack + twhite + trace_other, data = project_data)
 
+
 # drop 'tethnic' 
-model3.1 = lm(EXT ~ SDP +  ETS + page + pethnic + paian + pnhpi + pwhite + prace_other + employ + 
-                pedu + income + tage + taian + tblack + twhite + trace_other, data = project_data)
+model3.1 = lm(EXT ~ SDP +  ETS + page + pethnic + paian + pnhpi + pwhite + prace_other + employ + pedu + income + tage + taian + tblack + twhite + trace_other, data = project_data)
+
 
 # drop 'trace_other'
 model3.2 = lm(EXT ~ SDP +  ETS + page + pethnic + paian + pnhpi + pwhite + prace_other + employ +
@@ -400,16 +435,13 @@ model3.2 = lm(EXT ~ SDP +  ETS + page + pethnic + paian + pnhpi + pwhite + prace
 
 
 # drop 'pwhite'
-model3.3 = lm(EXT ~ SDP +  ETS + page + pethnic + paian + pnhpi + twhite + prace_other + employ + 
-                pedu + income + tage  + taian + tblack , data = project_data)
+model3.3 = lm(EXT ~ SDP +  ETS + page + pethnic + paian + pnhpi + twhite + prace_other + employ + pedu + income + tage  + taian + tblack , data = project_data)
 
 # drop 'taian'
-model3.4 = lm(EXT ~ SDP +  ETS + page + pethnic + paian + pnhpi + pwhite + prace_other + employ + 
-                pedu + income + tage  + tblack , data = project_data)
+model3.4 = lm(EXT ~ SDP +  ETS + page + pethnic + paian + pnhpi + pwhite + prace_other + employ + pedu + income + tage  + tblack , data = project_data)
 
 # drop 'pnhpi'
-model3.5 = lm(EXT ~ SDP +  ETS + page + pethnic + paian + pedu + pwhite + prace_other + employ +
-                income + tage  + tblack , data = project_data)
+model3.5 = lm(EXT ~ SDP +  ETS + page + pethnic + paian + pedu + pwhite + prace_other + employ + income + tage  + tblack , data = project_data)
 
 
 # drop 'income'
@@ -417,96 +449,35 @@ model3.6 = lm(EXT ~ SDP +  ETS + page+ pethnic+ paian + pedu + pwhite + prace_ot
                 tage  + tblack , data = project_data)
 
 
-# drop 'page' or adjut for
 # final model # adjust for page
 model3.6 = lm(EXT ~ SDP +  ETS + pethnic+ paian + pedu + pwhite + prace_other + employ +
                 tage  + tblack , data = project_data)
 #summary(model3.6)
 
-```
+logm1 = glm(as.factor(SU) ~ SDP +  ETS + page + pethnic + paian + pnhpi + pwhite + prace_other + employ + pedu + income + tage + tethnic + taian + tblack + twhite + trace_other,family = binomial,  data = project_data)
+#summary(logm)
 
-# model selection process for self regulation model
-```{r}
-# model selection for self regulation problem as the outcome
-model2 = lm(SR ~ SDP +  ETS + page + pethnic + paian + pnhpi + pwhite + prace_other + employ +
-              pedu + income + tage + tethnic + taian + tblack + twhite + trace_other, data = project_data)
-summary(model2)
-
-model3 = lm(SR ~ SDP +  ETS + page + paian + pnhpi + pwhite + prace_other + employ +
-              pedu + income + tage + tethnic + taian + tblack + twhite + trace_other, data = project_data)
-summary(model3)
-
-
-model3 = lm(SR ~ SDP +  ETS + page + paian + pnhpi  + prace_other + employ +
-              income + tage + tethnic + taian + tblack + twhite + trace_other, data = project_data)
-summary(model3)
+logm2 = glm(as.factor(SU) ~ SDP +  ETS  + prace_other +tblack   ,family = binomial,  data = project_data)
+#summary(logm2)
 ```
 
 
-```{r}
-# drop 'trace_other'
-model2.a = lm(SR ~ SDP +  ETS + page + pethnic + paian + pnhpi + pwhite + prace_other + employ + 
-                pedu + income + tage + tethnic + taian + tblack + twhite, data = project_data)
+#   Appendix: 
+
+## Github
+
+For a full code appendix go to this Project Github Repo: https://github.com/kasigi234/Exploratory-Data-Analysis
+
+#   Code
 
 
-# drop 'twhite'
-model2.b = lm(SR ~ SDP +  ETS + page + pethnic + paian + pnhpi + pwhite + prace_other + 
-                employ + pedu + income + tage + tethnic + taian + tblack , data = project_data)
-summary(model2.b)
-
-# drop 'tblack'
-model2.c = lm(SR ~ SDP +  ETS + page + pethnic + paian + pnhpi + pwhite + prace_other + employ + 
-                pedu + income + tage + tethnic + taian , data = project_data)
+\newpage
 
 
-# drop 'tethnic'
-# final model; # adjust for 'tage', 'page' and ETS  # preferred model for SR
-model2.d = lm(SR ~ SDP + ETS + page + pethnic + paian + pnhpi + pwhite + prace_other + employ + 
-                pedu + income + tage + taian , data = project_data)
-summary(model2.d)
+
+```{r ref.label=knitr::all_labels(), echo=TRUE, eval=FALSE}
 
 ```
-
-
-```{r}
-
-# fit a logistics regression model for substance use as the outcome
-logistic_model <- glm(as.factor(SU) ~ SDP + ETS + tage + tsex + page + pedu + employ + income, family = binomial, data = project_data)
-summary(logistic_model)
-
-# fit a full model
-logistic_model1 = lm(SU ~ SDP + ETS + page + pethnic + paian + pnhpi + pwhite + prace_other + employ + pedu + income + tage + taian , family = binomial, data = project_data)
-summary(logistic_model1)
-
-# drop 'pedu'
-logistic_model2 = lm(SU ~ SDP + ETS + page + pethnic + paian + pnhpi + pwhite + prace_other + employ  + income + tage + taian , family = binomial, data = project_data)
-summary(logistic_model2)
-
-
-# drop 'pwhite'
-logistic_model3 = lm(SU ~ SDP + ETS + page + pethnic + paian + pnhpi  + prace_other + employ  + income + tage + taian , family = binomial, data = project_data)
-summary(logistic_model3)
-
-
-# fit as final model
-#drop 'pethnic'
-# no significant results
-# adjust for 'income', 'employ', 'page' 
-logistic_model4 = lm(SU ~ SDP + ETS + page  + paian + pnhpi  + prace_other + employ  + income + tage + taian , family = binomial, data = project_data)
-summary(logistic_model4)
-
-```
-
-
-
-
-
-
-
-
-
-
-
 
 
 
