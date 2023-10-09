@@ -1,6 +1,5 @@
 ---
 title: "PDA Project1"
-author: 'Due: October 8 by 11.59pm'
 title: "Project 1 Practical Data Analysis "
 author: "Exploratory Data Analysis"
 date: "`r Sys.Date()`"
@@ -27,7 +26,6 @@ library(dplyr)
 library(lattice)
 library(reshape2)
 library(formatR)
-#opts_chunk$set(tidy.opts=list(width.cutoff=60),tidy=TRUE)
 #library(summarytools)
 #library(broom)
 
