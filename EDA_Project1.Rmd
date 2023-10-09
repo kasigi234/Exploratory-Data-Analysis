@@ -9,7 +9,6 @@ output: pdf_document
 ```{r setup,setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 
-# load package
 # libraries to be used 
 #install.packages("kableExtra")
 library(gtsummary)
