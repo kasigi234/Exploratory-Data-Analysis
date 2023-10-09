@@ -1,5 +1,4 @@
 ---
-title: "PDA Project1"
 title: "Project 1 Practical Data Analysis "
 author: "Exploratory Data Analysis"
 date: "`r Sys.Date()`"
