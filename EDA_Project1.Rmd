@@ -465,7 +465,6 @@ For a full code appendix go to this Project Github Repo: https://github.com/kasi
 
 
 
-```{r ref.label=knitr::all_labels(), echo=TRUE, eval=FALSE}
 
 ```
 
