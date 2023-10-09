@@ -32,9 +32,7 @@ library(formatR)
 knitr::opts_chunk$set(echo = FALSE)
 knitr::opts_chunk$set(warning = FALSE, message = FALSE, echo = FALSE, fig.align = "center")
 
-#setwd("/Users/kasigi/OneDrive - Brown #University/Desktop/Fall_2023/PHP2550/Project1")
 
-#setwd("C:\\Users\\kasigi\\OneDrive - Brown #University\\Documents\\GitHub\\Exploratory-Data-Analysis\\EDA_Pro#ject1.Rmd")
 
 # load the data
 project_data <- read.csv("/Users/kasigi/OneDrive - Brown University/Desktop/Fall_2023/PHP2550/Project1/project1.csv")
